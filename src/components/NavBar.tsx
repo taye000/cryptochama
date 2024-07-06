@@ -44,6 +44,7 @@ const Navbar = () => {
                         Crypto Chama
                     </Typography>
                     <NavLinks>
+                        <Button color="inherit" href="/">Home</Button>
                         <Button color="inherit" href="/earn-interest">Earn Interest</Button>
                         <Button color="inherit" href="/join-chama">Join Chama</Button>
                         <Button color="inherit" href="/register">Register</Button>

@@ -17,7 +17,7 @@ const HeroSection: React.FC = () => {
                 <Typography variant="body1" component="p" gutterBottom>
                     Revolutionize your savings and investments with blockchain technology.
                 </Typography>
-                <Button variant="contained" color="primary" size="large">
+                <Button variant="contained" color="primary" size="large" href="/register">
                     Get Started
                 </Button>
             </ContentWrapper>
