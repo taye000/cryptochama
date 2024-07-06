@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Typography, Grid, Paper, TextField, Button, Checkbox, FormControlLabel } from '@mui/material';
+import { Typography, Grid, TextField, Button, Checkbox, FormControlLabel, useTheme } from '@mui/material';
 import styled from 'styled-components';
 
 const Register = () => {
+    const theme = useTheme();
     const [isChama, setIsChama] = useState(false);
 
     const handleChamaClick = () => {
@@ -14,30 +15,26 @@ const Register = () => {
     };
 
     return (
-        <RegisterContainer>
+        <StyledRegisterContainer theme={theme}>
             <Typography variant="h4" gutterBottom>
                 Register
             </Typography>
-            <Grid container spacing={3} justifyContent="center">
-                <Grid item xs={12} md={6} onClick={handleNormalUserClick}>
-                    <Paper elevation={3}>
-                        <CardContent>
-                            <Typography variant="h6">Register as Normal User</Typography>
-                            <Typography variant="body2">Click here to register as a normal user.</Typography>
-                        </CardContent>
-                    </Paper>
-                </Grid>
-                <Grid item xs={12} md={6} onClick={handleChamaClick}>
-                    <Paper elevation={3}>
-                        <CardContent>
-                            <Typography variant="h6">Register a Chama</Typography>
-                            <Typography variant="body2">Click here to register a chama.</Typography>
-                        </CardContent>
-                    </Paper>
-                </Grid>
-            </Grid>
+            <StyledGridContainer container spacing={3} justifyContent="center">
+                <StyledGridItem item xs={12} sm={6} md={6} onClick={handleNormalUserClick}>
+                    <StyledCustomPaper theme={theme}>
+                        <Typography variant="h6">Register as Normal User</Typography>
+                        <Typography variant="body2">Click here to register as a normal user.</Typography>
+                    </StyledCustomPaper>
+                </StyledGridItem>
+                <StyledGridItem item xs={12} sm={6} md={6} onClick={handleChamaClick}>
+                    <StyledCustomPaper theme={theme}>
+                        <Typography variant="h6">Register a Chama</Typography>
+                        <Typography variant="body2">Click here to register a chama.</Typography>
+                    </StyledCustomPaper>
+                </StyledGridItem>
+            </StyledGridContainer>
             {isChama && (
-                <FormContainer>
+                <StyledFormContainer theme={theme}>
                     <Typography variant="h6" gutterBottom>
                         Chama Registration
                     </Typography>
@@ -54,13 +51,15 @@ const Register = () => {
                             Submit
                         </Button>
                     </form>
-                </FormContainer>
+                </StyledFormContainer>
             )}
-        </RegisterContainer>
+            {/* Add some space */}
+            <div style={{ marginBottom: '60px' }} />
+        </StyledRegisterContainer>
     );
 };
 
-const RegisterContainer = styled.div`
+const StyledRegisterContainer = styled.div`
     background-color: ${({ theme }) => theme.palette.background.default};
     color: ${({ theme }) => theme.palette.text.primary};
     padding: 20px;
@@ -72,13 +71,39 @@ const RegisterContainer = styled.div`
     align-items: center;
 `;
 
-const CardContent = styled.div`
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
+const StyledGridContainer = styled(Grid)`
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px 0;
 `;
 
-const FormContainer = styled.div`
+const StyledGridItem = styled(Grid)`
+    display: flex;
+    justify-content: center;
+`;
+
+const StyledCustomPaper = styled.div`
+    background-color: ${({ theme }) => theme.palette.background.paper};
+    color: ${({ theme }) => theme.palette.text.primary};
+    width: 300px;
+    height: 300px; /* Square-shaped card */
+    padding: 20px;
+    border-radius: ${({ theme }) => theme.shape.borderRadius}px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: ${({ theme }) => theme.shadows[3]};
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    &:hover {
+        box-shadow: ${({ theme }) => theme.shadows[6]};
+    }
+`;
+
+const StyledFormContainer = styled.div`
     background-color: ${({ theme }) => theme.palette.background.paper};
     padding: 20px;
     margin-top: 20px;

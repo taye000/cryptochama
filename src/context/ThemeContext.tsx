@@ -1,5 +1,6 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { ThemeProvider as MuiThemeProvider, Theme } from '@mui/material/styles';
+import { ThemeProvider as StyledComponentsThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '@/styles/themes';
 
 interface ThemeContextProps {
@@ -20,16 +21,27 @@ export const useTheme = () => {
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     const [theme, setTheme] = useState<Theme>(lightTheme);
-    const mode = theme.palette.mode;
+    const [mounted, setMounted] = useState(false); // Track if component is mounted
+
+    useEffect(() => {
+        setMounted(true); // Mark component as mounted after initial render
+    }, []);
 
     const toggleTheme = () => {
         setTheme((prevTheme) => (prevTheme.palette.mode === 'light' ? darkTheme : lightTheme));
     };
 
+    // Ensure no rendering on server-side before hydration
+    if (!mounted) {
+        return null;
+    }
+
     return (
-        <ThemeContext.Provider value={{ theme, mode, toggleTheme }}>
+        <ThemeContext.Provider value={{ theme, mode: theme.palette.mode, toggleTheme }}>
             <MuiThemeProvider theme={theme}>
-                {children}
+                <StyledComponentsThemeProvider theme={theme}>
+                    {children}
+                </StyledComponentsThemeProvider>
             </MuiThemeProvider>
         </ThemeContext.Provider>
     );

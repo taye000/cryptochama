@@ -1,10 +1,11 @@
+import { useEffect, useState } from 'react';
 import { ThemeProvider as StyledComponentsThemeProvider } from 'styled-components';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import type { AppProps } from 'next/app';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
-import { useTheme, ThemeProvider as CustomThemeProvider } from '../../context/ThemeContext';
+import { useTheme, ThemeProvider as CustomThemeProvider } from '../context/ThemeContext';
 import Navbar from '@/components/NavBar';
 
 const AppContainer = styled.div`
@@ -13,9 +14,17 @@ const AppContainer = styled.div`
   min-height: 100vh;
 `;
 
-
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null; // Ensure no mismatches between server and client rendering
+  }
 
   return (
     <MuiThemeProvider theme={theme}>
@@ -23,13 +32,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         <CssBaseline />
         <AppContainer>
           <Navbar />
-            <Component {...pageProps} />
+          <Component {...pageProps} />
           <Footer />
         </AppContainer>
       </StyledComponentsThemeProvider>
     </MuiThemeProvider>
   );
-}
+};
 
 const AppWrapper = (props: AppProps) => (
   <CustomThemeProvider>
