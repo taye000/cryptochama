@@ -41,7 +41,7 @@ const Navbar = () => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Crypto Chama
+                        CryptoChama
                     </Typography>
                     <NavLinks>
                         <Button color="inherit" href="/">Home</Button>
