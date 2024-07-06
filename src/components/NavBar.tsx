@@ -48,6 +48,7 @@ const Navbar = () => {
                         <Button color="inherit" href="/join-chama">Join Chama</Button>
                         <Button color="inherit" href="/earn-interest">Earn Interest</Button>
                         <Button color="inherit" href="/register">Register</Button>
+                        <Button color="inherit" href="/dashboard">Dashboard</Button>
                     </NavLinks>
                     <IconButton edge="end" color="inherit" onClick={toggleTheme}>
                         {mode === 'light' ? <Brightness7Icon /> : <Brightness4Icon />}
@@ -60,13 +61,13 @@ const Navbar = () => {
                 onClose={handleDrawerToggle}
             >
                 <MobileNavLinks onClick={handleDrawerToggle}>
-                    <ListItem button component="a" href="/earn-interest">
+                    <ListItem component="a" href="/earn-interest">
                         <ListItemText primary="Earn Interest" />
                     </ListItem>
-                    <ListItem button component="a" href="/join-chama">
+                    <ListItem component="a" href="/join-chama">
                         <ListItemText primary="Join Chama" />
                     </ListItem>
-                    <ListItem button component="a" href="/register">
+                    <ListItem component="a" href="/register">
                         <ListItemText primary="Register" />
                     </ListItem>
                 </MobileNavLinks>
