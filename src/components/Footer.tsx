@@ -5,10 +5,13 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import { useTheme } from '../../context/ThemeContext';
 
 const Footer: React.FC = () => {
+    const { theme } = useTheme();
+
     return (
-        <FooterContainer>
+        <FooterContainer theme={theme}>
             <FooterContent>
                 <FooterSection>
                     <Typography variant="body2" align="center">
@@ -57,8 +60,8 @@ const Footer: React.FC = () => {
     );
 };
 
-const FooterContainer = styled.footer`
-    background-color: ${({ theme }) => theme.palette.background.paper};
+const FooterContainer = styled.footer<{ theme: any }>`
+    background-color: ${({ theme }) => theme.palette.mode === 'dark' ? '#424242' : '#f5f5f5'};
     color: ${({ theme }) => theme.palette.text.primary};
     padding: 40px 20px;
     text-align: center;

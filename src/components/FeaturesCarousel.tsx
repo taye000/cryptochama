@@ -75,8 +75,8 @@ const FeaturesContainer = styled.div`
     color: ${({ theme }) => theme.palette.text.primary};
 `;
 
-const FeatureCard = styled(Card)`
-    background-color: ${({ theme }) => theme.palette.background.paper};
+const FeatureCard = styled(Card) <{ theme: any }>`
+    background-color: ${({ theme }) => theme.palette.mode === 'dark' ? '#333333' : '#f5f5f5'};
     color: ${({ theme }) => theme.palette.text.primary};
     min-height: 250px;
     display: flex;

@@ -13,9 +13,6 @@ const AppContainer = styled.div`
   min-height: 100vh;
 `;
 
-const MainContent = styled.main`
-  flex: 1;
-`;
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { theme } = useTheme();
@@ -26,9 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <CssBaseline />
         <AppContainer>
           <Navbar />
-          <MainContent>
             <Component {...pageProps} />
-          </MainContent>
           <Footer />
         </AppContainer>
       </StyledComponentsThemeProvider>

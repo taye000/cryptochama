@@ -1,4 +1,3 @@
-// pages/index.tsx
 import Head from "next/head";
 import { CssBaseline } from '@mui/material';
 import styled from 'styled-components';
