@@ -34,12 +34,11 @@ const Footer: React.FC = () => {
                         Subscribe to our newsletter for updates:
                     </Typography>
                     <NewsletterForm>
-                        <TextField
+                        <StyledTextField
                             id="newsletter-email"
                             label="Email"
                             variant="outlined"
                             size="small"
-                            fullWidth
                             InputProps={{
                                 endAdornment: (
                                     <Button variant="contained" color="primary" size="small">
@@ -91,11 +90,19 @@ const SocialIcons = styled.div`
 
 const NewsletterForm = styled.div`
     display: flex;
+    flex-direction: column;
     align-items: center;
     margin-top: 10px;
 
     @media (min-width: 768px) {
+        flex-direction: row;
         justify-content: center;
+    }
+`;
+
+const StyledTextField = styled(TextField)`
+    @media (min-width: 768px) {
+        width: 300px;
     }
 `;
 

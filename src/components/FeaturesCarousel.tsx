@@ -3,15 +3,6 @@ import styled from 'styled-components';
 import Carousel from 'react-material-ui-carousel';
 import { Card, CardContent, Typography, useTheme } from '@mui/material';
 
-const FeatureCard = styled(Card)`
-  background-color: ${({ theme }) => theme.palette.background.paper};
-  color: ${({ theme }) => theme.palette.text.primary};
-  min-height: 250px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
 const FeaturesCarousel: React.FC = () => {
     const theme = useTheme();
     const features = [
@@ -47,7 +38,20 @@ const FeaturesCarousel: React.FC = () => {
 
     return (
         <FeaturesContainer>
-            <Carousel>
+            <Carousel
+                autoPlay={false}
+                animation="slide"
+                indicators={false}
+                navButtonsAlwaysVisible
+                navButtonsProps={{
+                    style: {
+                        backgroundColor: theme.palette.background.default,
+                        color: theme.palette.text.primary,
+                        borderRadius: '50%',
+                        margin: '0 5px'
+                    }
+                }}
+            >
                 {features.map((feature, index) => (
                     <FeatureCard key={index} theme={theme}>
                         <CardContent>
@@ -69,6 +73,19 @@ const FeaturesContainer = styled.div`
     padding: 20px;
     background-color: ${({ theme }) => theme.palette.background.default};
     color: ${({ theme }) => theme.palette.text.primary};
+`;
+
+const FeatureCard = styled(Card)`
+    background-color: ${({ theme }) => theme.palette.background.paper};
+    color: ${({ theme }) => theme.palette.text.primary};
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 `;
 
 export default FeaturesCarousel;

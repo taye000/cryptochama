@@ -2,7 +2,7 @@
 import Head from "next/head";
 import { CssBaseline } from '@mui/material';
 import styled from 'styled-components';
-import FeaturesCarousel from "@/components/Fetures";
+import FeaturesCarousel from "@/components/FeaturesCarousel";
 import HeroSection from "@/components/Hero";
 import IntroductionSection from "@/components/Introduction";
 import SmartContractOverview from "@/components/SmartContract";
