@@ -8,6 +8,7 @@ import { styled } from '@mui/system';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import '@rainbow-me/rainbowkit/styles.css';
 
 const NavLinks = styled('div')({
     display: 'flex',
@@ -71,7 +72,15 @@ const Navbar = () => {
                             Dashboard
                         </Button>
                     </NavLinks>
-                    <ConnectButton />
+                    <ConnectButton
+                        label='Wallet'
+                        accountStatus={{
+                            smallScreen: 'avatar',
+                            largeScreen: 'full',
+                        }}
+                        chainStatus='name'
+                        showBalance={false}
+                    />
                     <IconButton edge="end" color="inherit" onClick={toggleTheme}>
                         {mode === 'light' ? <Brightness7Icon /> : <Brightness4Icon />}
                     </IconButton>
