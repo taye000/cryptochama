@@ -20,18 +20,30 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-    const [theme, setTheme] = useState<Theme>(lightTheme);
-    const [mounted, setMounted] = useState(false); // Track if component is mounted
+    const [theme, setTheme] = useState<Theme>(() => {
+        if (typeof window !== 'undefined') {
+            const storedTheme = localStorage.getItem('theme');
+            return storedTheme === 'dark' ? darkTheme : lightTheme;
+        }
+        return lightTheme;
+    });
+
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setMounted(true); // Mark component as mounted after initial render
+        setMounted(true);
     }, []);
 
     const toggleTheme = () => {
-        setTheme((prevTheme) => (prevTheme.palette.mode === 'light' ? darkTheme : lightTheme));
+        setTheme((prevTheme) => {
+            const newTheme = prevTheme.palette.mode === 'light' ? darkTheme : lightTheme;
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('theme', newTheme.palette.mode);
+            }
+            return newTheme;
+        });
     };
 
-    // Ensure no rendering on server-side before hydration
     if (!mounted) {
         return null;
     }
