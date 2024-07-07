@@ -13,12 +13,16 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.16.0",
     "@mui/material": "^5.16.0",
+    "@rainbow-me/rainbowkit": "^2.1.3",
+    "@tanstack/react-query": "^5.50.1",
     "chart.js": "^4.4.3",
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
     "react-material-ui-carousel": "^3.4.2",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "viem": "2.x",
+    "wagmi": "^2.10.9"
   },
   "devDependencies": {
     "@types/node": "^20",

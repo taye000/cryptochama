@@ -7,6 +7,10 @@ import Footer from '../components/Footer';
 import styled from 'styled-components';
 import { useTheme, ThemeProvider as CustomThemeProvider } from '../context/ThemeContext';
 import Navbar from '@/components/NavBar';
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { WagmiProvider } from 'wagmi';
+import config from '@/config/configs';
 
 const AppContainer = styled.div`
   display: flex;
@@ -26,15 +30,23 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     return null; // Ensure no mismatches between server and client rendering
   }
 
+  const queryClient = new QueryClient();
+
   return (
     <MuiThemeProvider theme={theme}>
       <StyledComponentsThemeProvider theme={theme}>
         <CssBaseline />
-        <AppContainer>
-          <Navbar />
-          <Component {...pageProps} />
-          <Footer />
-        </AppContainer>
+        <WagmiProvider config={config}>
+          <QueryClientProvider client={queryClient}>
+            <RainbowKitProvider>
+              <AppContainer>
+                <Navbar />
+                <Component {...pageProps} />
+                <Footer />
+              </AppContainer>
+            </RainbowKitProvider>
+          </QueryClientProvider>
+        </WagmiProvider>
       </StyledComponentsThemeProvider>
     </MuiThemeProvider>
   );
