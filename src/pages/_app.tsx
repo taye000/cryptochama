@@ -7,7 +7,7 @@ import Footer from '../components/Footer';
 import styled from 'styled-components';
 import { useTheme, ThemeProvider as CustomThemeProvider } from '../context/ThemeContext';
 import Navbar from '@/components/NavBar';
-import { Locale, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { darkTheme, lightTheme, Locale, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import config from '@/config/configs';
@@ -20,9 +20,11 @@ const AppContainer = styled.div`
 `;
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const { locale } = useRouter() as { locale: Locale };
+  const { theme } = useTheme();
+  const isDarkTheme = theme.palette.mode === 'dark';
+  const rainbowKitTheme = isDarkTheme ? darkTheme : lightTheme;
 
   useEffect(() => {
     setMounted(true);
@@ -40,7 +42,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <CssBaseline />
         <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
-            <RainbowKitProvider locale={locale}>
+            <RainbowKitProvider locale={locale} theme={rainbowKitTheme()}>
               <AppContainer>
                 <Navbar />
                 <Component {...pageProps} />
