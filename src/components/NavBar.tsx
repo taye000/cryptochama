@@ -7,6 +7,7 @@ import { useTheme } from '../context/ThemeContext';
 import { styled } from '@mui/system';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const NavLinks = styled('div')({
     display: 'flex',
@@ -70,6 +71,7 @@ const Navbar = () => {
                             Dashboard
                         </Button>
                     </NavLinks>
+                    <ConnectButton />
                     <IconButton edge="end" color="inherit" onClick={toggleTheme}>
                         {mode === 'light' ? <Brightness7Icon /> : <Brightness4Icon />}
                     </IconButton>
