@@ -1,25 +1,24 @@
+import React, { useEffect, useState } from 'react';
 import { AppBar, Toolbar, IconButton, Typography, Button, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useTheme } from '../context/ThemeContext';
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { styled } from '@mui/system';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-const NavLinks = styled.div`
-  display: flex;
-  gap: 1rem;
+const NavLinks = styled('div')({
+    display: 'flex',
+    gap: '1rem',
+    '@media (max-width: 768px)': {
+        display: 'none',
+    },
+});
 
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const MobileNavLinks = styled(List)`
-  width: 250px;
-`;
+const MobileNavLinks = styled(List)({
+    width: 250,
+});
 
 const Navbar = () => {
     const { mode, toggleTheme } = useTheme();
@@ -39,7 +38,7 @@ const Navbar = () => {
 
     return (
         <>
-            <AppBar position="static">
+            <AppBar position="fixed">
                 <Toolbar>
                     <IconButton
                         edge="start"
@@ -52,23 +51,31 @@ const Navbar = () => {
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         <Link href="/" passHref>
-                            <Button color="inherit" component="a" sx={{ color: "#FFFFFF", fontWeight: 'bold' }}>
+                            <Button color="inherit" component="a" sx={{ color: '#FFFFFF', fontWeight: 'bold' }}>
                                 CryptoChama
                             </Button>
                         </Link>
                     </Typography>
                     <NavLinks>
-                        <Button color="inherit" href="/join-chama" style={{ fontWeight: isActive('/join-chama') ? 'bold' : 'normal' }}>Join Chama</Button>
-                        <Button color="inherit" href="/earn-interest" style={{ fontWeight: isActive('/earn-interest') ? 'bold' : 'normal' }}>Earn Interest</Button>
-                        <Button color="inherit" href="/register" style={{ fontWeight: isActive('/register') ? 'bold' : 'normal' }}>Register</Button>
-                        <Button color="inherit" href="/dashboard" style={{ fontWeight: isActive('/dashboard') ? 'bold' : 'normal' }}>Dashboard</Button>
+                        <Button color="inherit" href="/join-chama" style={{ fontWeight: isActive('/join-chama') ? 'bold' : 'normal' }}>
+                            Join Chama
+                        </Button>
+                        <Button color="inherit" href="/earn-interest" style={{ fontWeight: isActive('/earn-interest') ? 'bold' : 'normal' }}>
+                            Earn Interest
+                        </Button>
+                        <Button color="inherit" href="/register" style={{ fontWeight: isActive('/register') ? 'bold' : 'normal' }}>
+                            Register
+                        </Button>
+                        <Button color="inherit" href="/dashboard" style={{ fontWeight: isActive('/dashboard') ? 'bold' : 'normal' }}>
+                            Dashboard
+                        </Button>
                     </NavLinks>
                     <IconButton edge="end" color="inherit" onClick={toggleTheme}>
                         {mode === 'light' ? <Brightness7Icon /> : <Brightness4Icon />}
                     </IconButton>
                 </Toolbar>
             </AppBar>
-            <Drawer
+            <StyledDrawer
                 anchor="left"
                 open={drawerOpen}
                 onClose={handleDrawerToggle}
@@ -87,9 +94,18 @@ const Navbar = () => {
                         <ListItemText primary="Dashboard" />
                     </ListItem>
                 </MobileNavLinks>
-            </Drawer>
+            </StyledDrawer>
         </>
     );
 };
+
+const StyledDrawer = styled(Drawer)`
+  & .MuiDrawer-paper {
+    width: 250px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: ${({ theme }) => theme.palette.mode === 'dark' ? '#333333' : '#f5f5f5'};
+    color: ${({ theme }) => theme.palette.text.primary};
+  }
+`;
 
 export default Navbar;
