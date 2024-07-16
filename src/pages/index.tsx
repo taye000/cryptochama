@@ -1,27 +1,10 @@
 import Head from "next/head";
 import { CssBaseline } from '@mui/material';
-import styled from 'styled-components';
 import FeaturesCarousel from "@/components/FeaturesCarousel";
 import HeroSection from "@/components/Hero";
 import IntroductionSection from "@/components/Introduction";
 import SmartContractOverview from "@/components/SmartContract";
-
-const HomeContainer = styled.div`
-  background-color: ${({ theme }) => theme.palette.background.default};
-  color: ${({ theme }) => theme.palette.text.primary};
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-`;
-
-const Section = styled.section`
-  width: 100%;
-  max-width: 1200px;
-  margin: 20px 0;
-`;
+import { HomeContainer, Section } from "@/styles/styled";
 
 export default function Home() {
   return (

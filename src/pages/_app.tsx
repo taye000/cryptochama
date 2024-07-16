@@ -4,7 +4,6 @@ import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import type { AppProps } from 'next/app';
 import Footer from '../components/Footer';
-import styled from 'styled-components';
 import { useTheme, ThemeProvider as CustomThemeProvider } from '../context/ThemeContext';
 import Navbar from '@/components/NavBar';
 import { darkTheme, lightTheme, Locale, RainbowKitProvider } from '@rainbow-me/rainbowkit';
@@ -12,12 +11,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import config from '@/config/configs';
 import { useRouter } from 'next/router';
-
-const AppContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
+import { AppContainer } from '@/styles/styled';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [mounted, setMounted] = useState(false);
