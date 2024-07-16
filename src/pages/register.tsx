@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Typography, Grid, TextField, Button, Checkbox, FormControlLabel, useTheme } from '@mui/material';
-import styled from 'styled-components';
+import { Typography, TextField, Button, Checkbox, FormControlLabel, useTheme } from '@mui/material';
+import { StyledRegisterContainer, StyledGridContainer, StyledGridItem, StyledCustomPaper, StyledFormContainer } from '@/styles/styled';
 
 const Register = () => {
     const theme = useTheme();
@@ -58,58 +58,5 @@ const Register = () => {
         </StyledRegisterContainer>
     );
 };
-
-const StyledRegisterContainer = styled.div`
-    background-color: ${({ theme }) => theme.palette.background.default};
-    color: ${({ theme }) => theme.palette.text.primary};
-    padding: 20px;
-    min-height: 100vh;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const StyledGridContainer = styled(Grid)`
-    width: 100%;
-    max-width: 1200px;
-    margin: 20px 0;
-`;
-
-const StyledGridItem = styled(Grid)`
-    display: flex;
-    justify-content: center;
-`;
-
-const StyledCustomPaper = styled.div`
-    background-color: ${({ theme }) => theme.palette.background.paper};
-    color: ${({ theme }) => theme.palette.text.primary};
-    width: 300px;
-    height: 300px; /* Square-shaped card */
-    padding: 20px;
-    border-radius: ${({ theme }) => theme.shape.borderRadius}px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: ${({ theme }) => theme.shadows[3]};
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-
-    &:hover {
-        box-shadow: ${({ theme }) => theme.shadows[6]};
-    }
-`;
-
-const StyledFormContainer = styled.div`
-    background-color: ${({ theme }) => theme.palette.background.paper};
-    padding: 20px;
-    margin-top: 20px;
-    width: 100%;
-    max-width: 600px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-`;
 
 export default Register;

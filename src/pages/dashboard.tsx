@@ -1,39 +1,11 @@
 import React from 'react';
 import { Typography, Grid, Paper, useTheme } from '@mui/material';
-import styled from 'styled-components';
 import Graph from '@/components/Graph';
+import { DashboardContainer, SectionTitle, SectionContent, RecentTransactions, GraphContainer } from '@/styles/styled';
+import { userData } from '@/utils/sampledata';
 
 const Dashboard = () => {
     const theme = useTheme();
-
-    // Mock data (replace with actual data fetching)
-    const userData = {
-        totalBalance: 15000,
-        totalInterest: 750,
-        personalAccount: {
-            balance: 10000,
-            recentTransactions: [
-                { date: '2024-07-15', type: 'Deposit', amount: 500 },
-                { date: '2024-07-10', type: 'Withdrawal', amount: 200 },
-                // Add more transactions as needed
-            ],
-        },
-        chamas: [
-            { id: 1, name: 'ChamaX', balance: 5000 },
-            { id: 2, name: 'Savings Circle', balance: 2000 },
-            // Add more chama details
-        ],
-        defiPlatforms: [
-            { id: 1, name: 'Aave', balance: 8000, interestRate: '8%' },
-            { id: 2, name: 'Compound', balance: 5000, interestRate: '5%' },
-            // Add more platforms details
-        ],
-        performanceData: {
-            // Example performance data (replace with actual performance metrics)
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            data: [10000, 10500, 11000, 11500, 12000, 12500],
-        },
-    };
 
     return (
         <DashboardContainer theme={theme}>
@@ -121,34 +93,5 @@ const Dashboard = () => {
         </DashboardContainer>
     );
 };
-
-const DashboardContainer = styled.div`
-    background-color: ${({ theme }) => theme.palette.background.default};
-    color: ${({ theme }) => theme.palette.text.primary};
-    padding: 20px;
-    min-height: 100vh;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const SectionTitle = styled(Typography)`
-    padding: 10px;
-`;
-
-const SectionContent = styled.div`
-    padding: 20px;
-`;
-
-const RecentTransactions = styled.div`
-    margin-top: 10px;
-    padding-left: 20px;
-`;
-
-const GraphContainer = styled.div`
-    padding: 20px;
-`;
 
 export default Dashboard;

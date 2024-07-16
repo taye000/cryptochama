@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Typography } from '@mui/material';
+import { TermsContainer, TermsContent } from '@/styles/styled';
 
 const TermsPage = () => {
     return (
@@ -35,20 +35,5 @@ const TermsPage = () => {
         </TermsContainer>
     );
 };
-
-const TermsContainer = styled.div`
-    padding: 20px;
-    background-color: ${({ theme }) => theme.palette.background.default};
-    color: ${({ theme }) => theme.palette.text.primary};
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const TermsContent = styled.div`
-    max-width: 800px;
-    width: 100%;
-`;
 
 export default TermsPage;

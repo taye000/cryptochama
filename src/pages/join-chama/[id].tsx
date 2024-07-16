@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button, Card, CardContent, Typography, useTheme } from '@mui/material';
-import styled from 'styled-components';
+import { CardContent, Typography, useTheme } from '@mui/material';
 import JoinChamaModal from '@/components/JoinChamaModal';
-import { chamaPlatforms } from '.';
+import { chamaPlatforms } from '@/utils/sampledata';
+import { PlatformDetailContainer, PlatformCard, PlatformLogo, SubscribeButton } from '@/styles/styled';
 
 const PlatformDetailPage = () => {
     const theme = useTheme();
@@ -71,39 +71,5 @@ const PlatformDetailPage = () => {
         </PlatformDetailContainer>
     );
 };
-
-const PlatformDetailContainer = styled.div`
-    background-color: ${({ theme }) => theme.palette.background.default};
-    color: ${({ theme }) => theme.palette.text.primary};
-    padding: 20px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const PlatformCard = styled(Card)`
-    background-color: ${({ theme }) => theme.palette.background.paper};
-    color: ${({ theme }) => theme.palette.text.primary};
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: center;
-    height: auto;
-    max-width: 600px;
-    width: 100%;
-    padding: 20px;
-    margin-top: 20px;
-`;
-
-const PlatformLogo = styled.img`
-    max-width: 120px;
-    height: auto;
-    margin: 0 auto 10px;
-`;
-
-const SubscribeButton = styled(Button)`
-    margin-top: 20px;
-`;
 
 export default PlatformDetailPage;
