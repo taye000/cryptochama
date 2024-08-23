@@ -8,6 +8,10 @@ interface IDeFiPlatform {
 }
 
 contract CryptoChama {
+    using SafeMath for uint256;
+
+    address public owner;
+
     address[] public members;
     mapping(address => uint256) public contributions;
     mapping(address => uint256) public savings;
@@ -42,12 +46,18 @@ contract CryptoChama {
     );
     event InterestEarned(address indexed member, uint256 amount, address token);
 
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only the owner can call this function");
+        _;
+    }
+
     constructor(
         address[] memory _members,
         uint256 _contributionAmount,
         uint256 _cycleDuration,
         address _defiPlatform
     ) {
+        owner = msg.sender;
         members = _members;
         contributionAmount = _contributionAmount;
         cycleDuration = _cycleDuration;
@@ -94,7 +104,7 @@ contract CryptoChama {
         emit SavingsWithdrawn(msg.sender, amount, token);
     }
 
-    function distribute(address token) public {
+    function distribute(address token) public onlyOwner {
         require(
             block.timestamp >= nextDistributionTime,
             "Distribution not yet allowed"
@@ -145,5 +155,13 @@ contract CryptoChama {
 
     function getSavingsBalance(address member) public view returns (uint256) {
         return savings[member];
+    }
+}
+
+library SafeMath {
+    function add(uint256 a, uint256 b) internal pure returns (uint256) {
+        uint256 c = a + b;
+        require(c >= a, "SafeMath: addition overflow");
+        return c;
     }
 }
