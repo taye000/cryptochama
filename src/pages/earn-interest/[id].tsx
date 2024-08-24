@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Button, Card, CardContent, Typography, useTheme } from '@mui/material';
 import styled from 'styled-components';
 import SubscriptionModal from '../../components/SubscriptionModal';
-import { platforms } from '.';
+import { platforms } from '@/utils/sampledata';
 
 const PlatformDetailPage = () => {
     const theme = useTheme();
