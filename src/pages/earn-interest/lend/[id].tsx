@@ -5,7 +5,6 @@ import {
     Button,
     Typography,
     useTheme,
-    Card,
     CardContent,
     TextField,
     CircularProgress,
@@ -25,11 +24,13 @@ import {
     LogoContainer,
 } from '@/styles/styled';
 import toast from 'react-hot-toast';
+import { useWallet } from '@/context/WalletContext';
 
 const LendPage = () => {
     const theme = useTheme();
     const router = useRouter();
     const { id } = router.query;
+    const { address, isConnected } = useWallet();
     const [token, setToken] = useState<any>(null);
     const [amount, setAmount] = useState<string>(''); // Amount to lend
     const [loading, setLoading] = useState<boolean>(true);
@@ -38,7 +39,6 @@ const LendPage = () => {
     const [balance, setBalance] = useState<string>('0'); // User's token balance
 
     useEffect(() => {
-        // Simulate loading for better UX
         setTimeout(() => {
             const selectedToken = tokens.find((token) => token.id === id);
             if (selectedToken) {
@@ -48,49 +48,40 @@ const LendPage = () => {
         }, 500);
     }, [id]);
 
+    // Fetch user's balance for the selected token
     useEffect(() => {
         const fetchBalance = async () => {
-            if (!token) return;
-            try {
-                // const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-                // const signer = provider.getSigner();
-                // const address = await signer.getAddress();
-                // const contract = new ethers.Contract(token.address, token.abi, provider);
-                // const userBalance = await contract.balanceOf(address);
-                // setBalance(ethers.utils.formatUnits(userBalance, token.decimals));
-            } catch (error) {
-                console.error('Error fetching balance:', error);
-                setBalance('0');
-            }
+            if (!token || !address) return;
+            // try {
+            //     const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+            //     const contract = new ethers.Contract(token.address, token.abi, provider);
+            //     const userBalance = await contract.balanceOf(address);
+            //     setBalance(ethers.utils.formatUnits(userBalance, token.decimals));
+            // } catch (error) {
+            //     console.error('Error fetching balance:', error);
+            //     setBalance('0');
+            // }
         };
 
         fetchBalance();
-    }, [token]);
+    }, [token, address]); // Add address as a dependency
+
 
     const handleLend = async () => {
         if (!amount || !token) return;
 
         setIsProcessing(true); // Start processing
         try {
-            // Example lending logic using ethers.js (connect to wallet, smart contract, etc.)
-            // Uncomment and configure the following lines with your contract details
-            /*
-            const provider = new ethers.providers.Web3Provider((window as any).ethereum);
-            const signer = provider.getSigner();
-            const contract = new ethers.Contract(token.contractAddress, token.abi, signer);
-            const tx = await contract.lend(ethers.utils.parseUnits(amount, token.decimals));
-            await tx.wait();
-            */
+            // const provider = new ethers.providers.Web3Provider((window as any).ethereum);
+            // const signer = provider.getSigner();
+            // const contract = new ethers.Contract(token.address, token.abi, signer);
+            // const tx = await contract.lend(ethers.utils.parseUnits(amount, token.decimals));
+            // await tx.wait();
 
-            // Simulating success for demonstration purposes
-            console.log(`Lending ${amount} ${token.name}...`);
-            // Simulate transaction delay
-            await new Promise((resolve) => setTimeout(resolve, 2000));
             toast.success(`Successfully lent ${amount} ${token.name}`);
             setDialogOpen(false);
             setAmount(''); // Reset the input
-            // Optionally, refetch balance after lending
-            // fetchBalance();
+            // fetchBalance(); // Refetch balance after lending
         } catch (error) {
             console.error('Error lending:', error);
             toast.error('Failed to lend. Please try again.');
@@ -133,14 +124,12 @@ const LendPage = () => {
         <StyledLendContainer theme={theme}>
             <StyledCard>
                 <CardContent>
-                    {/* Token logo and details */}
                     <LogoContainer>
-                        <Image src={token.logo} alt={token.name} width={60} height={60} style={{ borderRadius: '5%' }}/>
+                        <Image src={token.logo} alt={token.name} width={60} height={60} style={{ borderRadius: '5%' }} />
                     </LogoContainer>
                     <Typography variant="h4" gutterBottom align="center">
                         Lend {token.name}
                     </Typography>
-
                     <Typography variant="body1" gutterBottom align="center">
                         Earn <strong>{token.interestRate}%</strong> APY on {token.name}
                     </Typography>
@@ -148,12 +137,10 @@ const LendPage = () => {
                         Token Price: <strong>${token.price}</strong>
                     </Typography>
 
-                    {/* Display user's balance */}
                     <Typography variant="body2" align="center" gutterBottom>
                         Your Balance: <strong>{balance} {token.symbol}</strong>
                     </Typography>
 
-                    {/* Amount input with Max button */}
                     <Box display="flex" alignItems="center">
                         <TextField
                             label={`Amount of ${token.name} to lend`}
@@ -176,7 +163,6 @@ const LendPage = () => {
                         </Button>
                     </Box>
 
-                    {/* Lend button */}
                     <Button
                         variant="contained"
                         color="primary"
@@ -190,7 +176,6 @@ const LendPage = () => {
                 </CardContent>
             </StyledCard>
 
-            {/* Confirmation Dialog */}
             <Dialog open={isDialogOpen} onClose={handleDialogClose}>
                 <DialogTitle>Confirm Lending</DialogTitle>
                 <DialogContent>
