@@ -60,7 +60,7 @@ const Footer: React.FC = () => {
     );
 };
 
-const FooterContainer = styled.footer<{ theme: any }>`
+const FooterContainer = styled.footer`
     background-color: ${({ theme }) => theme.palette.mode === 'dark' ? '#424242' : '#f5f5f5'};
     color: ${({ theme }) => theme.palette.text.primary};
     padding: 40px 20px;
