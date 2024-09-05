@@ -277,6 +277,9 @@ export const LogoContainer = styled(Box)`
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 `;
 
 export const StyledLoadingContainer = styled(Box)`

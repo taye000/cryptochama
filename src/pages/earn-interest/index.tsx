@@ -54,7 +54,7 @@ const EarnInterest = () => {
                     {tokens.map((token) => (
                         <StyledTokenCard key={token.id} theme={theme}>
                             <CardContent>
-                                <StyledTokenLogo src={token.logo} alt={`${token.name} Logo`} />
+                                <StyledTokenLogo src={token.logo} alt={`${token.name} Logo`} style={{ borderRadius: '5%' }}/>
                                 <Typography variant="h6" component="div" gutterBottom>
                                     {token.name}
                                 </Typography>
