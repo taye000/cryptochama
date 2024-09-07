@@ -2,32 +2,26 @@ import connectToDatabase from "@/lib/mongodb";
 import { PasswordManager } from "@/lib/passwordmanager";
 import User from "@/models/User";
 import jwt from "jsonwebtoken";
-import { NextResponse } from "next/server";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_key";
 const REFRESH_TOKEN_SECRET =
   process.env.REFRESH_TOKEN_SECRET || "your_refresh_token_secret";
 
-export async function POST(request: Request) {
+const loginHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectToDatabase();
 
-  const { email, password } = await request.json();
+  const { email, password } = await req.body;
 
   const user = await User.findOne({ email });
 
   if (!user) {
-    return NextResponse.json(
-      { message: "Invalid credentials" },
-      { status: 401 }
-    );
+    return res.status(401).json({ message: "Invalid credentials" });
   }
 
   const isMatch = await PasswordManager.compare(user.password, password);
   if (!isMatch) {
-    return NextResponse.json(
-      { message: "Invalid credentials" },
-      { status: 401 }
-    );
+    return res.status(401).json({ message: "Invalid credentials" });
   }
 
   const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
@@ -41,8 +35,9 @@ export async function POST(request: Request) {
   user.refreshToken = refreshToken;
   await user.save();
 
-  return NextResponse.json(
-    { message: "Login successful", accessToken, refreshToken },
-    { status: 200 }
-  );
-}
+  return res
+    .status(200)
+    .json({ message: "Login successful", accessToken, refreshToken });
+};
+
+export default loginHandler;

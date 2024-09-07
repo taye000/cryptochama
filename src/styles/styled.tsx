@@ -296,3 +296,30 @@ export const StyledLoadingContainer = styled(Box)`
   justify-content: center;
   min-height: 100vh;
 `;
+
+export interface StyledButtonProps {
+    loading?: boolean;
+}
+
+export const StyledButton = styled(Button) <StyledButtonProps>`
+    position: relative;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ${({ loading }) =>
+        loading &&
+        `
+        .button-text {
+            visibility: hidden; /* Hide text while loading */
+        }
+
+        .loading-spinner {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    `}
+`;

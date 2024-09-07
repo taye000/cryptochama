@@ -65,6 +65,9 @@ const Navbar = () => {
                         <Button color="inherit" href="/earn-interest" style={{ fontWeight: isActive('/earn-interest') ? 'bold' : 'normal' }}>
                             Earn Interest
                         </Button>
+                        <Button color="inherit" href="/login" style={{ fontWeight: isActive('/login') ? 'bold' : 'normal' }}>
+                            Login
+                        </Button>
                         <Button color="inherit" href="/register" style={{ fontWeight: isActive('/register') ? 'bold' : 'normal' }}>
                             Register
                         </Button>

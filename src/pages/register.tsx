@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Typography, TextField, Button, Checkbox, FormControlLabel, useTheme } from '@mui/material';
+import { Typography, TextField, Checkbox, FormControlLabel, useTheme } from '@mui/material';
 import { StyledGridContainer, StyledGridItem, StyledCustomPaper, StyledFormContainer, StyledEarnInterestContainer } from '@/styles/styled';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/router';
+import { LoadingButton } from '@/components/Loading';
 
 const Register = () => {
     const theme = useTheme();
+    const router = useRouter();
     const [isChama, setIsChama] = useState(false);
     const [isNormalUser, setIsNormalUser] = useState(false);
     const [normalUserData, setNormalUserData] = useState({
@@ -13,7 +16,6 @@ const Register = () => {
         phone: '',
         password: '',
     });
-
     const [chamaData, setChamaData] = useState({
         memberName: '',
         chamaName: '',
@@ -23,6 +25,7 @@ const Register = () => {
         password: '',
         merryGoRound: false,
     });
+    const [loading, setLoading] = useState(false);
 
     const handleChamaClick = () => {
         setIsChama(true);
@@ -46,6 +49,8 @@ const Register = () => {
 
     const handleNormalUserSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true); // Show the spinner
+
         try {
             const response = await fetch('/api/auth/register', {
                 method: 'POST',
@@ -60,17 +65,22 @@ const Register = () => {
                 toast.success('User registered successfully');
                 console.log('Access Token:', data.accessToken);
                 console.log('Refresh Token:', data.refreshToken);
+                // Redirect to dashboard
+                router.push('/dashboard');
             } else {
                 toast.error(data.message || 'Registration failed');
             }
         } catch (error) {
             console.error('Error:', error);
+            toast.error('An error occurred. Please try again.');
+        } finally {
+            setLoading(false); // Hide the spinner
         }
     };
 
     const handleChamaSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-       // TODO: set up the endpoint for the chama registration
+        // TODO: set up the endpoint for the chama registration
     };
 
     return (
@@ -133,9 +143,9 @@ const Register = () => {
                             onChange={handleInputChange}
                             required
                         />
-                        <Button variant="contained" color="primary" type="submit">
-                            Submit
-                        </Button>
+                        <LoadingButton type="submit" loading={loading}>
+                            <span className="button-text">Submit</span>
+                        </LoadingButton>
                     </form>
                 </StyledFormContainer>
             )}
@@ -206,9 +216,9 @@ const Register = () => {
                             }
                             label="Merry Go Round"
                         />
-                        <Button variant="contained" color="primary" type="submit">
-                            Submit
-                        </Button>
+                        <LoadingButton type="submit" loading={loading}>
+                            <span className="button-text">Submit</span>
+                        </LoadingButton>
                     </form>
                 </StyledFormContainer>
             )}

@@ -1,3 +1,5 @@
+import { StyledButton, StyledButtonProps } from "@/styles/styled";
+import { CircularProgress } from "@mui/material";
 import { CSSProperties } from "react";
 import { BeatLoader } from "react-spinners";
 import styled from "styled-components";
@@ -31,5 +33,18 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
         <LoadingContainer>
             <BeatLoader color={color || "#6200ee"} loading={isLoading} size={size} cssOverride={override} />
         </LoadingContainer>
+    );
+};
+
+export const LoadingButton: React.FC<StyledButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ loading, children, ...props }) => {
+    return (
+        <StyledButton {...props} loading={loading} variant="contained" color="primary">
+            {loading && (
+                <div className="loading-spinner">
+                    <CircularProgress size={24} color="inherit" />
+                </div>
+            )}
+            <span className="button-text">{children}</span>
+        </StyledButton>
     );
 };

@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import { AppContainer } from '@/styles/styled';
 import { Toaster } from 'react-hot-toast';
 import { WalletProvider } from '@/context/WalletContext';
+import { AuthProvider } from '@/context/AuthContext';
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [mounted, setMounted] = useState(false);
   const { locale } = useRouter() as { locale: Locale };
@@ -39,6 +40,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           <QueryClientProvider client={queryClient}>
             <RainbowKitProvider locale={locale} theme={rainbowKitTheme()}>
               <WalletProvider>
+              <AuthProvider>
                 <AppContainer>
                   <Navbar />
                   <Component {...pageProps} />
@@ -55,6 +57,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                       },
                     }} />
                 </AppContainer>
+                </AuthProvider>
               </WalletProvider>
             </RainbowKitProvider>
           </QueryClientProvider>

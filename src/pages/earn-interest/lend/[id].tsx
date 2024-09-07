@@ -7,24 +7,19 @@ import {
     useTheme,
     CardContent,
     TextField,
-    CircularProgress,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
+    CircularProgress,
 } from '@mui/material';
 import Image from 'next/image';
-import { ethers } from 'ethers';
 import { tokens } from '..';
-import {
-    StyledLoadingContainer,
-    StyledLendContainer,
-    StyledCard,
-    LogoContainer,
-} from '@/styles/styled';
-import toast from 'react-hot-toast';
 import { useWallet } from '@/context/WalletContext';
+import { LogoContainer, StyledCard, StyledLendContainer } from '@/styles/styled';
+import toast from 'react-hot-toast';
+import { LoadingSpinner } from '@/components/Loading';
 
 const LendPage = () => {
     const theme = useTheme();
@@ -36,7 +31,7 @@ const LendPage = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
-    const [balance, setBalance] = useState<string>('0'); // User's token balance
+    const [balance, setBalance] = useState<string>('2'); // User's token balance
 
     useEffect(() => {
         setTimeout(() => {
@@ -64,13 +59,12 @@ const LendPage = () => {
         };
 
         fetchBalance();
-    }, [token, address]); // Add address as a dependency
-
+    }, [token, address]);
 
     const handleLend = async () => {
         if (!amount || !token) return;
 
-        setIsProcessing(true); // Start processing
+        setIsProcessing(true);
         try {
             // const provider = new ethers.providers.Web3Provider((window as any).ethereum);
             // const signer = provider.getSigner();
@@ -80,14 +74,14 @@ const LendPage = () => {
 
             toast.success(`Successfully lent ${amount} ${token.name}`);
             setDialogOpen(false);
-            setAmount(''); // Reset the input
-            // fetchBalance(); // Refetch balance after lending
+            setAmount('');
+            // fetchBalance();
         } catch (error) {
             console.error('Error lending:', error);
             toast.error('Failed to lend. Please try again.');
             setDialogOpen(false);
         } finally {
-            setIsProcessing(false); // End processing
+            setIsProcessing(false);
         }
     };
 
@@ -107,12 +101,7 @@ const LendPage = () => {
 
     if (loading) {
         return (
-            <StyledLoadingContainer>
-                <CircularProgress />
-                <Typography variant="h6" mt={2}>
-                    Loading token data...
-                </Typography>
-            </StyledLoadingContainer>
+            <LoadingSpinner isLoading={loading} color={theme.palette.primary.main} />
         );
     }
 
