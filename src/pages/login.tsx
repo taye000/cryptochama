@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Typography, TextField, Button, useTheme } from '@mui/material';
-import { StyledGridContainer, StyledGridItem, StyledCustomPaper, StyledFormContainer, StyledEarnInterestContainer } from '@/styles/styled';
+import { Typography, TextField, useTheme } from '@mui/material';
+import {  StyledFormContainer, StyledEarnInterestContainer } from '@/styles/styled';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { LoadingButton } from '@/components/Loading';

@@ -31,10 +31,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const storedRefreshToken = localStorage.getItem('refreshToken');
         const storedUser = localStorage.getItem('user');
 
-        if (storedAccessToken && storedRefreshToken && storedUser) {
+        if (storedAccessToken && storedRefreshToken) {
             setAccessToken(storedAccessToken);
             setRefreshToken(storedRefreshToken);
-            setUser(JSON.parse(storedUser));
+
+            // Check if storedUser is not null or undefined before parsing
+            if (storedUser) {
+                try {
+                    setUser(JSON.parse(storedUser));
+                } catch (error) {
+                    console.error('Failed to parse user from localStorage:', error);
+                    // Optionally, you can clear the user data if parsing fails
+                    localStorage.removeItem('user');
+                }
+            }
         }
     }, []);
 
