@@ -1,21 +1,34 @@
 import React, { useState } from 'react';
 import { Typography, TextField, Button, Checkbox, FormControlLabel, useTheme } from '@mui/material';
-import { StyledRegisterContainer, StyledGridContainer, StyledGridItem, StyledCustomPaper, StyledFormContainer } from '@/styles/styled';
+import { StyledGridContainer, StyledGridItem, StyledCustomPaper, StyledFormContainer, StyledEarnInterestContainer } from '@/styles/styled';
 
 const Register = () => {
     const theme = useTheme();
     const [isChama, setIsChama] = useState(false);
+    const [isNormalUser, setIsNormalUser] = useState(false);
 
     const handleChamaClick = () => {
         setIsChama(true);
+        setIsNormalUser(false); // Hide normal user form when chama is selected
     };
 
     const handleNormalUserClick = () => {
-        // Placeholder for Auth0 registration implementation
+        setIsNormalUser(true);
+        setIsChama(false); // Hide chama form when normal user is selected
+    };
+
+    const handleNormalUserSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Placeholder for normal user registration implementation (Auth0 or other API)
+    };
+
+    const handleChamaSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Placeholder for chama registration implementation
     };
 
     return (
-        <StyledRegisterContainer theme={theme}>
+        <StyledEarnInterestContainer theme={theme}>
             <Typography variant="h4" gutterBottom>
                 Register
             </Typography>
@@ -33,16 +46,36 @@ const Register = () => {
                     </StyledCustomPaper>
                 </StyledGridItem>
             </StyledGridContainer>
+
+            {isNormalUser && (
+                <StyledFormContainer theme={theme}>
+                    <Typography variant="h6" gutterBottom>
+                        Normal User Registration
+                    </Typography>
+                    <form onSubmit={handleNormalUserSubmit}>
+                        <TextField fullWidth label="Name" margin="normal" required />
+                        <TextField fullWidth label="Email" margin="normal" type="email" required />
+                        <TextField fullWidth label="Phone Number" margin="normal" required />
+                        <TextField fullWidth label="Password" margin="normal" type="password" required />
+                        <Button variant="contained" color="primary" type="submit">
+                            Submit
+                        </Button>
+                    </form>
+                </StyledFormContainer>
+            )}
+
             {isChama && (
                 <StyledFormContainer theme={theme}>
                     <Typography variant="h6" gutterBottom>
                         Chama Registration
                     </Typography>
-                    <form>
+                    <form onSubmit={handleChamaSubmit}>
+                        <TextField fullWidth label="Name of Member" margin="normal" required />
                         <TextField fullWidth label="Name of Chama" margin="normal" required />
                         <TextField fullWidth label="Principal Member" margin="normal" required />
                         <TextField fullWidth label="Principal Member Contact" margin="normal" required />
                         <TextField fullWidth label="Description" margin="normal" multiline rows={4} required />
+                        <TextField fullWidth label="Password" type="password" margin="normal" required />
                         <FormControlLabel
                             control={<Checkbox name="merryGoRound" />}
                             label="Merry Go Round"
@@ -53,9 +86,10 @@ const Register = () => {
                     </form>
                 </StyledFormContainer>
             )}
+
             {/* Add some space */}
             <div style={{ marginBottom: '60px' }} />
-        </StyledRegisterContainer>
+        </StyledEarnInterestContainer>
     );
 };
 

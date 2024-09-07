@@ -70,11 +70,17 @@ export const StyledGridContainer = styled(Grid)`
     width: 100%;
     max-width: 1200px;
     margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 `;
 
 export const StyledGridItem = styled(Grid)`
     display: flex;
     justify-content: center;
+    align-items: center;
+    margin: 10px;
 `;
 
 export const StyledCustomPaper = styled.div`
@@ -94,7 +100,8 @@ export const StyledCustomPaper = styled.div`
     text-align: center;
 
     &:hover {
-        box-shadow: ${({ theme }) => theme.shadows[6]};
+        transform: translateY(-5px);
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     }
 `;
 
