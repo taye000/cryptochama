@@ -1,127 +1,91 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { toast } from 'react-hot-toast';
+import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import { LoadingSpinner } from '@/components/Loading';
 
-interface AuthContextType {
-    user: User | null;
-    accessToken: string | null;
-    refreshToken: string | null;
-    login: (email: string, password: string) => Promise<void>;
+interface AuthContextProps {
+    user: any;
+    isAuthenticated: boolean;
+    login: (token: string) => void;
     logout: () => void;
-    refreshTokens: () => Promise<void>;
+    updateUser: (user: any) => void;
+    loading: boolean;
 }
 
-interface User {
-    _id: string;
-    name: string;
-    email: string;
-    phone: string;
-}
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null);
-    const [accessToken, setAccessToken] = useState<string | null>(null);
-    const [refreshToken, setRefreshToken] = useState<string | null>(null);
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [user, setUser] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
     const router = useRouter();
 
     useEffect(() => {
-        const storedAccessToken = localStorage.getItem('accessToken');
-        const storedRefreshToken = localStorage.getItem('refreshToken');
-        const storedUser = localStorage.getItem('user');
+        const fetchUser = async () => {
+            try {
+                const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
 
-        if (storedAccessToken && storedRefreshToken) {
-            setAccessToken(storedAccessToken);
-            setRefreshToken(storedRefreshToken);
+                if (token) {
+                    const response = await fetch('/api/auth/me', { headers: { 'Authorization': `Bearer ${token}` } });
+                    const data = await response.json();
 
-            // Check if storedUser is not null or undefined before parsing
-            if (storedUser) {
-                try {
-                    setUser(JSON.parse(storedUser));
-                } catch (error) {
-                    console.error('Failed to parse user from localStorage:', error);
-                    // Optionally, you can clear the user data if parsing fails
-                    localStorage.removeItem('user');
+                    if (response.ok) {
+                        setUser(data.user);
+                    } else {
+                        console.error('Failed to fetch user:', data.message);
+                        setUser(null);
+                    }
+                } else {
+                    setUser(null);
                 }
+            } catch (error) {
+                console.error('Error fetching user:', error);
+                setUser(null);
+            } finally {
+                setLoading(false);
             }
-        }
+        };
+
+        fetchUser();
     }, []);
 
-    const login = async (email: string, password: string) => {
+    const login = async (token: string) => {
+        document.cookie = `token=${token}; Path=/;`;
         try {
-            const response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-
+            // Fetch user data after login to ensure state is updated
+            const response = await fetch('/api/auth/me', { headers: { 'Authorization': `Bearer ${token}` } });
             const data = await response.json();
             if (response.ok) {
-                setAccessToken(data.accessToken);
-                setRefreshToken(data.refreshToken);
-                localStorage.setItem('accessToken', data.accessToken);
-                localStorage.setItem('refreshToken', data.refreshToken);
-                localStorage.setItem('user', JSON.stringify(data.user));
                 setUser(data.user);
                 router.push('/dashboard');
             } else {
-                toast.error(data.message || 'Login failed');
+                console.error('Failed to fetch user:', data.message);
+                setUser(null);
             }
         } catch (error) {
-            console.error('Error:', error);
-            toast.error('An error occurred. Please try again.');
+            console.error('Error fetching user:', error);
+            setUser(null);
         }
+    };
+
+    const updateUser = (updatedUser: any) => {
+        setUser(updatedUser);
+        router.push('/profile');
     };
 
     const logout = () => {
-        fetch('/api/auth/logout', {
-            method: 'GET',
-        }).then(() => {
-            setAccessToken(null);
-            setRefreshToken(null);
-            setUser(null);
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            localStorage.removeItem('user');
-            router.push('/login');
-        });
-    };
-
-    const refreshTokens = async () => {
-        try {
-            const response = await fetch('/api/auth/refresh-token', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ refreshToken }),
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                setAccessToken(data.accessToken);
-                localStorage.setItem('accessToken', data.accessToken);
-            } else {
-                toast.error(data.message || 'Failed to refresh token');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            toast.error('An error occurred. Please try again.');
-        }
+        document.cookie = 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+        setUser(null);
+        router.push('/');
     };
 
     return (
-        <AuthContext.Provider value={{ user, accessToken, refreshToken, login, logout, refreshTokens }}>
-            {children}
+        <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout, updateUser, loading }}>
+            {loading ? <LoadingSpinner isLoading={false} /> : children}
         </AuthContext.Provider>
     );
 };
 
 export const useAuth = () => {
-    const context = useContext(AuthContext);
+    const context = React.useContext(AuthContext);
     if (context === undefined) {
         throw new Error('useAuth must be used within an AuthProvider');
     }

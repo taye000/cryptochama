@@ -4,10 +4,12 @@ import { StyledGridContainer, StyledGridItem, StyledCustomPaper, StyledFormConta
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { LoadingButton } from '@/components/Loading';
+import { useAuth } from '@/context/AuthContext';
 
 const Register = () => {
     const theme = useTheme();
     const router = useRouter();
+    const { login } = useAuth();
     const [isChama, setIsChama] = useState(false);
     const [isNormalUser, setIsNormalUser] = useState(false);
     const [normalUserData, setNormalUserData] = useState({
@@ -49,7 +51,7 @@ const Register = () => {
 
     const handleNormalUserSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true); // Show the spinner
+        setLoading(true);
 
         try {
             const response = await fetch('/api/auth/register', {
@@ -63,6 +65,8 @@ const Register = () => {
             const data = await response.json();
             if (response.ok) {
                 toast.success('User registered successfully');
+                login(data.accessToken);
+                document.cookie = `token=${data.accessToken}; Path=/;`;
                 console.log('Access Token:', data.accessToken);
                 console.log('Refresh Token:', data.refreshToken);
                 // Redirect to dashboard
@@ -74,7 +78,7 @@ const Register = () => {
             console.error('Error:', error);
             toast.error('An error occurred. Please try again.');
         } finally {
-            setLoading(false); // Hide the spinner
+            setLoading(false);
         }
     };
 

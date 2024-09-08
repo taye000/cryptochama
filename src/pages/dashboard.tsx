@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 const Dashboard = () => {
     const theme = useTheme();
     const { user } = useAuth();
-    console.log(user);
+    console.log("user", user);
     return (
         <DashboardContainer theme={theme}>
             {user ? (

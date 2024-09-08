@@ -13,40 +13,52 @@ const registerHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const { name, email, phone, password } = req.body;
 
-  const existingUser = await User.findOne({ email });
+  try {
+    const existingUser = await User.findOne({ email });
 
-  if (existingUser) {
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ message: "User already exists with this email" });
+    }
+
+    const hashedPassword = await PasswordManager.toHash(password);
+
+    const newUser = new User({
+      name,
+      email,
+      phone,
+      password: hashedPassword,
+    });
+
+    await newUser.save();
+
+    const accessToken = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    const refreshToken = jwt.sign(
+      { userId: newUser._id },
+      REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    newUser.refreshToken = refreshToken;
+
+    await newUser.save();
+
+    return res.status(201).json({
+      message: "User registered successfully",
+      accessToken,
+      refreshToken,
+    });
+  } catch (error: any) {
+    console.error("Error registering user:", error);
     return res
-      .status(400)
-      .json({ message: "User already exists with this email" });
+      .status(500)
+      .json({ message: "Failed to register user", error: error.message });
   }
-
-  const hashedPassword = await PasswordManager.toHash(password);
-
-  const newUser = new User({
-    name,
-    email,
-    phone,
-    password: hashedPassword,
-  });
-
-  await newUser.save();
-
-  const accessToken = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
-    expiresIn: "1h",
-  });
-  const refreshToken = jwt.sign({ userId: newUser._id }, REFRESH_TOKEN_SECRET, {
-    expiresIn: "7d",
-  });
-
-  newUser.refreshToken = refreshToken;
-  await newUser.save();
-
-  return res.status(201).json({
-    message: "User registered successfully",
-    accessToken,
-    refreshToken,
-  });
 };
 
 export default registerHandler;
