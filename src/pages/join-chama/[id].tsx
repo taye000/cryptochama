@@ -4,6 +4,7 @@ import { CardContent, Typography, useTheme } from '@mui/material';
 import JoinChamaModal from '@/components/JoinChamaModal';
 import { chamaPlatforms } from '@/utils/sampledata';
 import { PlatformDetailContainer, PlatformCard, PlatformLogo, SubscribeButton } from '@/styles/styled';
+import withAuth from '@/components/withAuth';
 
 const PlatformDetailPage = () => {
     const theme = useTheme();
@@ -72,4 +73,4 @@ const PlatformDetailPage = () => {
     );
 };
 
-export default PlatformDetailPage;
+export default withAuth(PlatformDetailPage);

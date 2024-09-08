@@ -3,6 +3,7 @@ import { CardContent, Typography, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
 import { chamaPlatforms } from '@/utils/sampledata';
 import { StyledJoinChamaContainer, StyledCardsContainer, StyledPlatformList, StyledPlatformCard, StyledPlatformLogo } from '@/styles/styled';
+import withAuth from '@/components/withAuth';
 
 const JoinChama = () => {
     const theme = useTheme();
@@ -55,4 +56,4 @@ const JoinChama = () => {
     );
 };
 
-export default JoinChama;
+export default withAuth(JoinChama);

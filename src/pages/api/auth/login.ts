@@ -34,9 +34,6 @@ const loginHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   // Save refresh token
   user.refreshToken = refreshToken;
   await user.save();
-  console.log("accessToken", accessToken);
-  console.log("refreshToken", refreshToken);
-
   return res
     .status(200)
     .json({ message: "Login successful", accessToken, refreshToken });

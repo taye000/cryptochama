@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Typography, TextField, useTheme } from '@mui/material';
-import { StyledFormContainer, StyledEarnInterestContainer } from '@/styles/styled';
+import { StyledFormContainer, StyledEarnInterestContainer, CenteredButtonContainer } from '@/styles/styled';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { LoadingButton } from '@/components/Loading';
@@ -36,8 +36,6 @@ const Login = () => {
             if (res.ok) {
                 login(data.accessToken);
                 toast.success('Login successful! Redirecting to dashboard...');
-                console.log('Access Token:', data.accessToken);
-                console.log('Refresh Token:', data.refreshToken);
                 router.push('/dashboard');
             } else {
                 toast.error(data.message || 'Login failed.');
@@ -78,9 +76,11 @@ const Login = () => {
                         onChange={handleInputChange}
                         required
                     />
-                    <LoadingButton type="submit" loading={loading}>
-                        <span className="button-text">Login</span>
-                    </LoadingButton>
+                    <CenteredButtonContainer>
+                        <LoadingButton type="submit" loading={loading}>
+                            <span className="button-text">Login</span>
+                        </LoadingButton>
+                    </CenteredButtonContainer>
                 </form>
             </StyledFormContainer>
         </StyledEarnInterestContainer>
