@@ -8,6 +8,7 @@ import { styled } from '@mui/system';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAuth } from '@/context/AuthContext';
 import '@rainbow-me/rainbowkit/styles.css';
 
 const NavLinks = styled('div')({
@@ -26,6 +27,7 @@ const Navbar = () => {
     const { mode, toggleTheme } = useTheme();
     const [drawerOpen, setDrawerOpen] = useState(false);
     const router = useRouter();
+    const { user, logout } = useAuth(); // Destructure logout function if available
 
     useEffect(() => {
         // This effect runs after the initial render, safely managing client-side state
@@ -65,12 +67,28 @@ const Navbar = () => {
                         <Button color="inherit" href="/earn-interest" style={{ fontWeight: isActive('/earn-interest') ? 'bold' : 'normal' }}>
                             Earn Interest
                         </Button>
-                        <Button color="inherit" href="/register" style={{ fontWeight: isActive('/register') ? 'bold' : 'normal' }}>
-                            Register
-                        </Button>
-                        <Button color="inherit" href="/dashboard" style={{ fontWeight: isActive('/dashboard') ? 'bold' : 'normal' }}>
-                            Dashboard
-                        </Button>
+                        {!user ? (
+                            <>
+                                <Button color="inherit" href="/login" style={{ fontWeight: isActive('/login') ? 'bold' : 'normal' }}>
+                                    Login
+                                </Button>
+                                <Button color="inherit" href="/register" style={{ fontWeight: isActive('/register') ? 'bold' : 'normal' }}>
+                                    Register
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <Button color="inherit" href="/dashboard" style={{ fontWeight: isActive('/dashboard') ? 'bold' : 'normal' }}>
+                                    Dashboard
+                                </Button>
+                                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                                    {user.name}
+                                </Typography>
+                                <Button color="inherit" onClick={logout} style={{ fontWeight: isActive('/logout') ? 'bold' : 'normal' }}>
+                                    Logout
+                                </Button>
+                            </>
+                        )}
                     </NavLinks>
                     <ConnectButton
                         label='Wallet'
@@ -98,12 +116,25 @@ const Navbar = () => {
                     <ListItem component="a" href="/join-chama">
                         <ListItemText primary="Join Chama" />
                     </ListItem>
-                    <ListItem component="a" href="/register">
-                        <ListItemText primary="Register" />
-                    </ListItem>
-                    <ListItem component="a" href="/dashboard">
-                        <ListItemText primary="Dashboard" />
-                    </ListItem>
+                    {!user ? (
+                        <>
+                            <ListItem component="a" href="/login">
+                                <ListItemText primary="Login" />
+                            </ListItem>
+                            <ListItem component="a" href="/register">
+                                <ListItemText primary="Register" />
+                            </ListItem>
+                        </>
+                    ) : (
+                        <>
+                            <ListItem component="a" href="/dashboard">
+                                <ListItemText primary="Dashboard" />
+                            </ListItem>
+                            <ListItem button onClick={logout}>
+                                <ListItemText primary="Logout" />
+                            </ListItem>
+                        </>
+                    )}
                 </MobileNavLinks>
             </StyledDrawer>
         </>

@@ -3,15 +3,24 @@ import { Typography, Grid, Paper, useTheme } from '@mui/material';
 import Graph from '@/components/Graph';
 import { DashboardContainer, SectionTitle, SectionContent, RecentTransactions, GraphContainer } from '@/styles/styled';
 import { userData } from '@/utils/sampledata';
+import { useAuth } from '@/context/AuthContext';
+import withAuth from '@/components/withAuth';
 
 const Dashboard = () => {
     const theme = useTheme();
-
+    const { user } = useAuth();
+    console.log("user", user);
     return (
         <DashboardContainer theme={theme}>
-            <Typography variant="h4" gutterBottom>
-                Dashboard
-            </Typography>
+            {user ? (
+                <Typography variant="h4">
+                    Hello, {user.name}!
+                </Typography>
+            ) : (
+                <Typography variant="h4">
+                    Welcome to the Dashboard!
+                </Typography>
+            )}
             <Grid container spacing={3}>
                 {/* Overview Section */}
                 <Grid item xs={12} md={6}>
@@ -94,4 +103,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);
