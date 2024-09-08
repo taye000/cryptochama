@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Typography, TextField, Checkbox, FormControlLabel, useTheme } from '@mui/material';
-import { StyledGridContainer, StyledGridItem, StyledCustomPaper, StyledFormContainer, StyledEarnInterestContainer } from '@/styles/styled';
+import { StyledGridContainer, StyledGridItem, StyledCustomPaper, StyledFormContainer, StyledEarnInterestContainer, CenteredButtonContainer } from '@/styles/styled';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { LoadingButton } from '@/components/Loading';
@@ -67,9 +67,6 @@ const Register = () => {
                 toast.success('User registered successfully');
                 login(data.accessToken);
                 document.cookie = `token=${data.accessToken}; Path=/;`;
-                console.log('Access Token:', data.accessToken);
-                console.log('Refresh Token:', data.refreshToken);
-                // Redirect to dashboard
                 router.push('/dashboard');
             } else {
                 toast.error(data.message || 'Registration failed');
@@ -147,9 +144,11 @@ const Register = () => {
                             onChange={handleInputChange}
                             required
                         />
-                        <LoadingButton type="submit" loading={loading}>
-                            <span className="button-text">Submit</span>
-                        </LoadingButton>
+                        <CenteredButtonContainer>
+                            <LoadingButton type="submit" loading={loading}>
+                                <span className="button-text">Submit</span>
+                            </LoadingButton>
+                        </CenteredButtonContainer>
                     </form>
                 </StyledFormContainer>
             )}

@@ -20,6 +20,7 @@ import { useWallet } from '@/context/WalletContext';
 import { LogoContainer, StyledCard, StyledLendContainer } from '@/styles/styled';
 import toast from 'react-hot-toast';
 import { LoadingSpinner } from '@/components/Loading';
+import withAuth from '@/components/withAuth';
 
 const LendPage = () => {
     const theme = useTheme();
@@ -199,4 +200,4 @@ const LendPage = () => {
     );
 };
 
-export default LendPage;
+export default withAuth(LendPage);

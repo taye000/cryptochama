@@ -9,7 +9,6 @@ import withAuth from '@/components/withAuth';
 const Dashboard = () => {
     const theme = useTheme();
     const { user } = useAuth();
-    console.log("user", user);
     return (
         <DashboardContainer theme={theme}>
             {user ? (

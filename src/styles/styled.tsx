@@ -1,4 +1,4 @@
-import { Box, Button, Card, Grid, Typography } from "@mui/material";
+import { Box, Button, Card, Drawer, Grid, List, Typography } from "@mui/material";
 import styled from "styled-components";
 
 export const AppContainer = styled.div`
@@ -112,6 +112,14 @@ export const StyledFormContainer = styled.div`
     width: 100%;
     max-width: 600px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+export const CenteredButtonContainer = styled.div`
+    width: 100%;
+    text-align: center;
 `;
 
 export const TermsContainer = styled.div`
@@ -322,4 +330,25 @@ export const StyledButton = styled(Button) <StyledButtonProps>`
             justify-content: center;
         }
     `}
+`;
+
+export const NavLinks = styled('div')({
+    display: 'flex',
+    gap: '1rem',
+    '@media (max-width: 768px)': {
+        display: 'none',
+    },
+});
+
+export const MobileNavLinks = styled(List)({
+    width: 250,
+});
+
+export const StyledDrawer = styled(Drawer)`
+  & .MuiDrawer-paper {
+    width: 250px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: ${({ theme }) => theme.palette.mode === 'dark' ? '#333333' : '#f5f5f5'};
+    color: ${({ theme }) => theme.palette.text.primary};
+  }
 `;
