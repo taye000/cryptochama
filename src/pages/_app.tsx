@@ -12,7 +12,8 @@ import { WagmiProvider } from 'wagmi';
 import config from '@/config/configs';
 import { useRouter } from 'next/router';
 import { AppContainer } from '@/styles/styled';
-
+import { Toaster } from 'react-hot-toast';
+import { WalletProvider } from '@/context/WalletContext';
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [mounted, setMounted] = useState(false);
   const { locale } = useRouter() as { locale: Locale };
@@ -37,11 +38,24 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
             <RainbowKitProvider locale={locale} theme={rainbowKitTheme()}>
-              <AppContainer>
-                <Navbar />
-                <Component {...pageProps} />
-                <Footer />
-              </AppContainer>
+              <WalletProvider>
+                <AppContainer>
+                  <Navbar />
+                  <Component {...pageProps} />
+                  <Footer />
+                  <Toaster
+                    position="top-center"
+                    reverseOrder={false}
+                    toastOptions={{
+                      // Define default options
+                      duration: 5000,
+                      style: {
+                        background: isDarkTheme ? '#333' : '#fff',
+                        color: isDarkTheme ? '#fff' : '#333',
+                      },
+                    }} />
+                </AppContainer>
+              </WalletProvider>
             </RainbowKitProvider>
           </QueryClientProvider>
         </WagmiProvider>

@@ -1,38 +1,78 @@
 import React from 'react';
-import { CardContent, Typography, useTheme } from '@mui/material';
+import { CardContent, Typography, Button, useTheme } from '@mui/material';
 import { useRouter } from 'next/router';
-import { platforms } from '@/utils/sampledata';
-import { StyledEarnInterestContainer, StyledCardsContainer, StyledPlatformList, StyledPlatformCard, StyledPlatformLogo } from '@/styles/styled';
+import { StyledEarnInterestContainer, StyledCardsContainer, StyledTokenList, StyledTokenCard, StyledTokenLogo } from '@/styles/styled';
+
+export const tokens = [
+    {
+        id: "1",
+        name: 'DAI',
+        logo: '/dai.png',
+        interestRate: 3.5,
+        price: 12,
+        address: '0x6b175474e89094c44da98b954eedeac495271d0f',
+        decimals: 18,
+    },
+    {
+        id: "2",
+        name: 'USDC',
+        logo: '/usdc.png',
+        interestRate: 4.5,
+        price: 19,
+        address: '0x6b175474e89094c44da98b954eedeac495271d0f',
+        decimals: 18,
+    },
+    {
+        id: "3",
+        name: 'USDT',
+        logo: '/usdt.png',
+        interestRate: 5.5,
+        price: 10,
+        address: '0x6b175474e89094c44da98b954eedeac495271d0f',
+        decimals: 18,
+    },
+];
 
 const EarnInterest = () => {
     const theme = useTheme();
     const router = useRouter();
 
-    const handleCardClick = (id: number) => {
-        router.push(`/earn-interest/${id}`);
+    const handleLendClick = (id: any) => {
+        router.push(`/earn-interest/lend/${id}`);
     };
 
     return (
         <StyledEarnInterestContainer theme={theme}>
             <Typography variant="h4" component="h1" gutterBottom>
-                Earn Interest
+                Lend and Earn Interest on Aave
+            </Typography>
+            <Typography variant="body1" component="p" gutterBottom>
+                Choose from available tokens to lend on Aave and start earning interest.
             </Typography>
             <StyledCardsContainer>
-                <StyledPlatformList>
-                    {platforms.map((platform) => (
-                        <StyledPlatformCard key={platform.id} theme={theme} onClick={() => handleCardClick(platform.id)}>
+                <StyledTokenList>
+                    {tokens.map((token) => (
+                        <StyledTokenCard key={token.id} theme={theme}>
                             <CardContent>
-                                <StyledPlatformLogo src={platform.logo} alt={`${platform.name} Logo`} />
+                                <StyledTokenLogo src={token.logo} alt={`${token.name} Logo`} style={{ borderRadius: '5%' }}/>
                                 <Typography variant="h6" component="div" gutterBottom>
-                                    {platform.name}
+                                    {token.name}
                                 </Typography>
                                 <Typography variant="body2" component="p">
-                                    {platform.interestRate}
+                                    Interest Rate: {token.interestRate}%
                                 </Typography>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => handleLendClick(token.id)}
+                                    sx={{ marginTop: '10px' }}
+                                >
+                                    Lend {token.name}
+                                </Button>
                             </CardContent>
-                        </StyledPlatformCard>
+                        </StyledTokenCard>
                     ))}
-                </StyledPlatformList>
+                </StyledTokenList>
             </StyledCardsContainer>
         </StyledEarnInterestContainer>
     );

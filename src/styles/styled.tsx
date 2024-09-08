@@ -1,10 +1,11 @@
-import { Button, Card, Grid, Typography } from "@mui/material";
+import { Box, Button, Card, Grid, Typography } from "@mui/material";
 import styled from "styled-components";
 
 export const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  margin-top: 48px;
 `;
 
 export const DashboardContainer = styled.div`
@@ -69,11 +70,17 @@ export const StyledGridContainer = styled(Grid)`
     width: 100%;
     max-width: 1200px;
     margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 `;
 
 export const StyledGridItem = styled(Grid)`
     display: flex;
     justify-content: center;
+    align-items: center;
+    margin: 10px;
 `;
 
 export const StyledCustomPaper = styled.div`
@@ -93,7 +100,8 @@ export const StyledCustomPaper = styled.div`
     text-align: center;
 
     &:hover {
-        box-shadow: ${({ theme }) => theme.shadows[6]};
+        transform: translateY(-5px);
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     }
 `;
 
@@ -185,6 +193,7 @@ export const StyledEarnInterestContainer = styled.div`
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
+    margin-top: 20px;
 `;
 
 export const StyledCardsContainer = styled.div`
@@ -220,4 +229,70 @@ export const StyledPlatformCard = styled(Card)`
         transform: translateY(-5px);
         box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     }
+`;
+
+export const StyledTokenList = styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+`;
+
+export const StyledTokenCard = styled(Card)`
+    background-color: ${({ theme }) => theme.palette.background.paper};
+    color: ${({ theme }) => theme.palette.text.primary};
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    border: 1px solid ${({ theme }) => theme.palette.divider};
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    }
+`;
+
+export const StyledTokenLogo = styled.img`
+    max-width: 60px;
+    height: auto;
+    margin-bottom: 10px;
+`;
+
+export const StyledLendContainer = styled(Box)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: ${({ theme }) => theme.palette.background.default};
+  color: ${({ theme }) => theme.palette.text.primary};
+`;
+
+export const StyledCard = styled(Card)`
+  max-width: 400px;
+  padding: 20px;
+  background-color: ${({ theme }) => theme.palette.background.paper};
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+`;
+
+export const LogoContainer = styled(Box)`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+`;
+
+export const StyledLoadingContainer = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 `;
