@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import connectToDatabase from "@/app/lib/mongodb";
-import User from "@/app/models/User";
 import { Types } from "mongoose";
+import connectToDatabase from "@/lib/mongodb";
+import User from "@/models/User";
 
 // PATCH /api/users/[id]
 export async function PATCH(request: Request) {

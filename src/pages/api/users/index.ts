@@ -1,6 +1,6 @@
+import connectToDatabase from "@/lib/mongodb";
+import User from "@/models/User";
 import { NextResponse } from "next/server";
-import User from "@/app/models/User";
-import connectToDatabase from "@/app/lib/mongodb";
 
 export async function POST(request: Request) {
   await connectToDatabase();
