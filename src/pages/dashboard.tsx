@@ -4,6 +4,7 @@ import Graph from '@/components/Graph';
 import { DashboardContainer, SectionTitle, SectionContent, RecentTransactions, GraphContainer } from '@/styles/styled';
 import { userData } from '@/utils/sampledata';
 import { useAuth } from '@/context/AuthContext';
+import withAuth from '@/components/withAuth';
 
 const Dashboard = () => {
     const theme = useTheme();
@@ -102,4 +103,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);
